@@ -23,4 +23,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.index, name="index"),
     path("generate_pdf/", views.generate_pdf, name="generate_pdf"),
+    path("profile_list/", views.ProfileListView.as_view(), name="profile_list"),
+    path("profile/<int:pk>/", views.generate_profile_pdf, name="profile_pdf"),
 ]
