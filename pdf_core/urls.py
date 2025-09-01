@@ -25,4 +25,5 @@ urlpatterns = [
     path("generate_pdf/", views.generate_pdf, name="generate_pdf"),
     path("profile_list/", views.ProfileListView.as_view(), name="profile_list"),
     path("<int:pk>/generate_pdf/", views.generate_profile_pdf, name="generate_profile_pdf"),
+    path("generate_all_profiles_pdf/", views.generate_all_profiles_pdf, name="generate_all_profiles_pdf"),
 ]

@@ -79,4 +79,45 @@ def generate_profile_pdf(request, pk):
 
     return response
     
-    
+def generate_all_profiles_pdf(request):
+    profiles = Profile.objects.all()
+
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = 'attachment; filename="all_profiles.pdf"'
+
+    p = canvas.Canvas(response)
+
+    y = 750
+
+    p.setFont("Helvetica", 16)
+    p.drawString(50, 800, "All Profiles Report")
+    p.setFont("Helvetica", 8)
+    p.drawString(100, 780, "Generated on: " + datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+
+    for index, profile in enumerate(profiles):
+
+        if index >0 and y < 150:
+            p.showPage()
+            y = 750
+            p.setFont("Helvetica", 12)
+
+        p.setFont("Helvetica", 12)
+        p.drawString(50, y, f"Profile: {index+1}:{profile.name}")
+        y -= 20
+
+        p.setFont("Helvetica", 10)
+        p.drawString(50,y,f"Name:{profile.name}")
+        y-=15
+        p.drawString(50,y,f"Age:{profile.age}")
+        y-=15
+        p.drawString(50,y,f"Gender:{profile.gender}")
+        y-=15
+        p.drawString(50,y,f"Address:{profile.address}")
+        y-=15
+        p.drawString(50,y,f"Email:{profile.email}")
+        y-=30
+
+    p.showPage()
+    p.save()
+
+    return response
