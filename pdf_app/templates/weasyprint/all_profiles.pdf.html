@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <title>Generate All Profiles PDF</title>
+    <style>
+        body {
+            margin: 20px;
+        }
+
+        .timestamp {
+            font-size: 0.9rem;
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="text-center mb-4">All Profiles Report</h1>
+    <p class="timestamp">Generated on {{ timestamp }}</p>
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Address</th>
+            <th>Email</th>
+        </tr>
+        {% for profile in profiles %}
+        <tr>
+            <td>{{ profile.name }}</td>
+            <td>{{ profile.age }}</td>
+            <td>{{ profile.gender }}</td>
+            <td>{{ profile.address }}</td>
+            <td>{{ profile.email }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+
+</html>

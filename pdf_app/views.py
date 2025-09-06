@@ -3,7 +3,8 @@ from reportlab.pdfgen import canvas
 from django.http import HttpResponse
 from datetime import datetime
 from django.views.generic import ListView
-
+from weasyprint import HTML
+from django.template.loader import render_to_string
 from pdf_app.models import Profile
 
 
@@ -119,5 +120,29 @@ def generate_all_profiles_pdf(request):
 
     p.showPage()
     p.save()
+
+    return response
+
+def generate_single_profile_pdf(request, pk):
+    profile = get_object_or_404(Profile, pk=pk)
+
+    html_string = render_to_string('weasyprint/single_profile_pdf.html', {'profile': profile, 'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = f'attachment; filename="{profile.name}.pdf"'
+
+    HTML(string=html_string).write_pdf(response)
+
+    return response
+
+def generate_all_profiles_pdf(request):
+    profiles = Profile.objects.all()
+
+    html_string = render_to_string('weasyprint/all_profiles.pdf.html', {'profiles': profiles, 'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = 'attachment; filename="all_profiles.pdf"'
+
+    HTML(string=html_string).write_pdf(response)
 
     return response

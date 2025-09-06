@@ -1,0 +1,25 @@
+Linux:
+
+Debian/Ubuntu: sudo apt install libcairo2 libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz0b libgdk-pixbuf-2.0-0
+Fedora: sudo dnf install python3-pip pango
+Arch: sudo pacman -S python-pip pango
+Alpine: sudo apk add py3-pip libpango-1.0.so.0 libharfbuzz.so.0 libharfbuzz-subset.so.0 libfontconfig.so.1 libpangoft2-1.0.so.0
+Then: pip install weasyprint
+Verify: weasyprint --info
+
+
+macOS:
+
+Install Homebrew: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install python pango, then pip install weasyprint
+Verify: weasyprint --info
+
+
+Windows:
+
+Install Python (Microsoft Store).
+Install MSYS2 from msys2.org.
+In MSYS2: pacman -S mingw-w64-x86_64-pango
+In Command Prompt: python -m venv venv, venv\Scripts\activate.bat, pip install weasyprint
+If DLL errors: set WEASYPRINT_DLL_DIRECTORIES=C:\msys64\mingw64\bin
+Verify: weasyprint --info
