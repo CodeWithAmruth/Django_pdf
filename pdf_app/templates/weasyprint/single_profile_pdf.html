@@ -8,22 +8,78 @@
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <title>Single Profile PDF</title>
     <style>
-        body {margin: 20px;}
-        .timestamp {font-size: 0.9rem;text-align: right;}
+        body {
+            margin: 30px;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .report-header {
+            background: linear-gradient(135deg, #0d6efd, #6610f2);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        .report-header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        .timestamp {
+            font-size: 0.85rem;
+            text-align: right;
+            color: #6c757d;
+            margin-top: -15px;
+            margin-bottom: 20px;
+        }
+
+        .profile-card {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .profile-card p {
+            font-size: 1rem;
+            padding: 8px 12px;
+            margin: 0;
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+        .profile-card p:last-child {
+            border-bottom: none;
+        }
+
+        .profile-card strong {
+            width: 120px;
+            display: inline-block;
+            color: #0d6efd;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1 class="text-center mb-4">Profile Report : {{ profile.name }}</h1>
-        <p class="timestamp">Generated on {{ timestamp }}</p>
-        <div class="card">
-            <p class="mb-2"><strong>Name:</strong> {{ profile.name }}</p>
-            <p class="mb-2"><strong>Email:</strong> {{ profile.email }}</p>
-            <p class="mb-2"><strong>Gender:</strong> {{ profile.gender }}</p>
-            <p class="mb-2"><strong>Age:</strong> {{ profile.age }}</p>
-            <p class="mb-2"><strong>Address:</strong> {{ profile.address }}</p>
+        <!-- Header -->
+        <div class="report-header text-center">
+            <h1>Profile Report : {{ profile.name }}</h1>
+        </div>
 
+        <!-- Timestamp -->
+        <p class="timestamp">Generated on {{ timestamp }}</p>
+
+        <!-- Profile Card -->
+        <div class="profile-card">
+            <p><strong>Name:</strong> {{ profile.name }}</p>
+            <p><strong>Email:</strong> {{ profile.email }}</p>
+            <p><strong>Gender:</strong> {{ profile.gender }}</p>
+            <p><strong>Age:</strong> {{ profile.age }}</p>
+            <p><strong>Address:</strong> {{ profile.address }}</p>
         </div>
     </div>
 </body>

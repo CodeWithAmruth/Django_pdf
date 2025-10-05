@@ -30,4 +30,8 @@ urlpatterns = [
     # WeasyPrint
     path("single_profile_pdf/<int:pk>/", views.generate_single_profile_pdf, name="single_profile_pdf"),
     path("all_profiles_pdf/", views.generate_all_profiles_pdf, name="all_profiles_pdf"),
+
+    # pluto print
+    path("pluto_pdf/<int:pk>/<str:output_format>/", views.generate_profile_output, name="pluto_pdf"),
+    path("pluto_all_pdf/<str:output_format>/", views.generate_all_profiles_output, name="pluto_all_pdf"),
 ]

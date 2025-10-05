@@ -18,6 +18,8 @@
                 <th>Email</th>
                 <th>Action</th>
                 <th>Single PDF</th>
+                <th>pluto PDF</th>
+                <th>pluto PNG</th>
             </tr>
         </thead>
         <tbody>
@@ -30,11 +32,15 @@
                 <td>{{ profile.email }}</td>
                 <td><a href="{% url 'generate_profile_pdf' profile.id %}">Generate PDF</a></td>
                 <td><a href="{% url 'single_profile_pdf' profile.id %}">Generate Single PDF</a></td>
+                <td><a href="{% url 'pluto_pdf' profile.id 'pdf' %}">Generate Single PDF (pluto)</a></td>
+                <td><a href="{% url 'pluto_pdf' profile.id 'png' %}">Generate Single PNG (pluto)</a></td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
     <a href="{% url 'generate_all_profiles_pdf' %}">Generate All Profiles PDF</a><br/>
-    <a href="{% url 'all_profiles_pdf' %}">Generate All Profiles PDF (WeasyPrint)</a>
+    <a href="{% url 'all_profiles_pdf' %}">Generate All Profiles PDF (WeasyPrint)</a><br>
+    <a href="{% url 'pluto_all_pdf' 'pdf' %}">Generate All Profiles PDF (pluto)</a><br>
+    <a href="{% url 'pluto_all_pdf' 'png' %}">Generate All Profiles PNG (pluto)</a><br>
 </body>
 </html>
