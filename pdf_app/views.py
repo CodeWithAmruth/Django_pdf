@@ -6,6 +6,8 @@ from django.views.generic import ListView
 from weasyprint import HTML
 from django.template.loader import render_to_string
 from pdf_app.models import Profile
+import plutoprint
+import tempfile
 
 
 # Create your views here.
@@ -144,5 +146,80 @@ def generate_all_profiles_pdf(request):
     response["Content-Disposition"] = 'attachment; filename="all_profiles.pdf"'
 
     HTML(string=html_string).write_pdf(response)
+
+    return response
+
+# Pluto print
+
+def generate_profile_output(request,pk,output_format = "pdf"):
+    profile = get_object_or_404(Profile, pk=pk)
+
+    # render to html
+    html_string = render_to_string('weasyprint/single_profile_pdf.html', {'profile': profile, 'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+
+    # create book 
+    book = plutoprint.Book(plutoprint.PAGE_SIZE_A4)
+    book.load_html(html_string)
+
+    # create the temp file
+    with tempfile.NamedTemporaryFile(suffix=f".{output_format},delete = False") as tmpfile:
+        filepath = tmpfile.name
+
+    # write output to file
+    if output_format == "pdf":
+        book.write_to_pdf(filepath)
+        content_type = "application/pdf"
+    else:
+        book.write_to_png(filepath,width=800)
+        content_type = "image/png"
+
+    # Read back the file
+    with open(filepath, "rb") as f:
+        file_data = f.read()
+
+    # Build the response
+    response = HttpResponse(file_data, content_type=content_type)
+    response["Content-Disposition"] = f'attachment; filename="{profile.name}.{output_format}"'
+
+    return response
+
+def generate_all_profiles_output(request,output_format = "pdf"):
+    profiles = Profile.objects.all()
+
+    # Combine all profiles HTML into one doc
+
+    combined_html = ""
+    for idx, profile in enumerate(profiles):
+        html_string = render_to_string('weasyprint/single_profile_pdf.html', {'profile': profile, 'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+
+        # Add page break after each profile
+        if idx < len(profiles)-1:
+            combined_html += html_string + "<div style='page-break-after: always;'></div>"
+        else:
+            combined_html += html_string
+
+    # create book
+    book = plutoprint.Book(plutoprint.PAGE_SIZE_A4)
+    book.load_html(combined_html)
+
+    # create the temp file
+    with tempfile.NamedTemporaryFile(suffix=f".{output_format},delete = False") as tmpfile:
+        filepath = tmpfile.name
+
+    # write output to file
+    if output_format == "pdf":
+        book.write_to_pdf(filepath)
+        content_type = "application/pdf"
+    else:
+        book.write_to_png(filepath,width=800)
+        content_type = "image/png"
+
+    # Read back the file
+    with open(filepath, "rb") as f:
+        file_data = f.read()
+
+    # Build the response
+    response = HttpResponse(file_data, content_type=content_type)
+    response["Content-Disposition"] = f'attachment; filename="all_profiles.{output_format}"'
 
     return response
